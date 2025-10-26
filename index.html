@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Les Bonnes Pièces</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script type="module" src="script.js"></script>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <img src="images/logo-les-bonnes-pieces.png" alt="LOGO">
+      <h1>Les Bonnes Pièces</h1>
+    </header>
+
+    <main>
+      <section class="filtres">
+        <h3>Filtres</h3>
+        <input type="text" v-model="recherche" placeholder="Rechercher une pièce">
+        <div>
+          <label>Catégorie :</label>
+          <select v-model="categorieFiltre">
+            <option value="">Toutes</option>
+            <option v-for="cat in categories" :key="cat">{{ cat }}</option>
+          </select>
+        </div>
+        <div>
+          <label>Disponibilité :</label>
+          <select v-model="disponibleFiltre">
+            <option value="">Tous</option>
+            <option value="true">Disponible</option>
+            <option value="false">Rupture</option>
+          </select>
+        </div>
+        <div>
+          <label>Tri par prix :</label>
+          <select v-model="triPrix">
+            <option value="asc">Croissant</option>
+            <option value="desc">Décroissant</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="fiches">
+        <div v-for="piece in piecesFiltrees" :key="piece.id" class="fiche">
+          <img :src="piece.image" :alt="piece.nom">
+          <p>{{ piece.nom }}</p>
+          <p>Prix : {{ piece.prix }} €</p>
+          <p v-if="piece.disponible">✅ Disponible</p>
+          <p v-else>❌ Rupture</p>
+          <button v-on:click="ajouterAuPanier(piece)">Ajouter au panier</button>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <h3>Panier</h3>
+      <ul>
+        <li v-for="item in panier" :key="item.id">{{ item.nom }} - {{ item.prix }} €</li>
+      </ul>
+    </footer>
+  </div>
+</body>
+</html>
